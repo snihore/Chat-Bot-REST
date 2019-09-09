@@ -16,13 +16,14 @@ app.get('/', (req, res)=>{
 
 app.post('/send-auto-message', (req, res)=>{
     var msg = `Hello, I am sourabh nihore's bot ...`;
+    var msg2 = JSON.stringify(req.body);
 
     const MessagingResponse = twilio.twiml.MessagingResponse;
 
 
     const response = new MessagingResponse();
     const message = response.message();
-    message.body(msg);
+    message.body(msg2);
     response.redirect('https://demo.twilio.com/welcome/sms/');
 
     
