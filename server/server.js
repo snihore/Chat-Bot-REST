@@ -2,6 +2,8 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var twilio = require('twilio');
 
+const {keyPairMessages} = require('./chat-bot');
+
 var app = express();
 var port = process.env.PORT || 3000;
 
@@ -15,15 +17,19 @@ app.get('/', (req, res)=>{
 });
 
 app.post('/send-auto-message', (req, res)=>{
-    var msg = `Hello, I am sourabh nihore's bot ...`;
-    var msg2 = JSON.stringify(req.body);
+    // var msg = `Hello, I am sourabh nihore's bot ...`;
+    var SmsStatus = req.body.SmsStatus;
+    var From = req.body.From;
+    var Body = req.body.Body;
+
+    var msg = keyPairMessages(Body);
 
     const MessagingResponse = twilio.twiml.MessagingResponse;
 
 
     const response = new MessagingResponse();
     const message = response.message();
-    message.body(msg2);
+    message.body(msg);
     response.redirect('https://demo.twilio.com/welcome/sms/');
 
     
@@ -66,4 +72,12 @@ client.messages
       .then(message => console.log(message.sid)) 
       .done();
  * 
+ /////////////////////////////////////////
+
+
+ * 
+ * SmsStatus
+ * Body
+ * From
+
  */
